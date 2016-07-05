@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,8 @@ namespace IWCORE_WIN
 {
     class Foe
     {
-        /* RUUULES OF NAATUURE!!!! */
+        Vector2 pos;
+        double facing; /* For further reference, see Player.cs */
 
     }
 }
