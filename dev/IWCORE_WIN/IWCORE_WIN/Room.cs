@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 
 namespace IWCORE_WIN
 {
-    class Player
+    class Room
     {
         Vector2 pos;
-        double facing; /* where the player is facing, where as 0 = straight up, 25 = right, 50 = straight down, 75 = left */
+        Vector2 size;
+        int foeAmmount;
+        Foe[] foes;
     }
 }

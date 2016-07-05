@@ -8,5 +8,7 @@ namespace IWCORE_WIN
 {
     class Foe
     {
+        /* RUUULES OF NAATUURE!!!! */
+
     }
 }

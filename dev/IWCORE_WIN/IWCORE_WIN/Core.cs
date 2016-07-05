@@ -1,4 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿/*
+  Copyright olonaut Studios
+  Do not distribute! 
+*/
+
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 

@@ -39,9 +39,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Core.cs" />
+    <Compile Include="Foe.cs" />
     <Compile Include="Map.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Room.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
