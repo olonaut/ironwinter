@@ -65,9 +65,6 @@ namespace IWCORE_WIN
             /* Conversion, to be put in new funciton */
             playerRotAngle = ((playerRotAngle - 0) / (100 - 0)) * ((MathHelper.Pi * 2) - 0) + 0;
 
-            
-
-
             base.Update(gameTime);
         }
         protected override void Draw(GameTime gameTime)
