@@ -26,7 +26,7 @@ namespace IWCORE_WIN
             Content.RootDirectory = "Content";
             Window.Title = "IRON WINTER DEVBUILD";
             testmap = new Map();
-            player = new Player();
+            player = new Player(new Vector2(testmap.demoRoom.pos.X + (testmap.demoRoom.size.X / 2) + 32 , testmap.demoRoom.pos.Y + (testmap.demoRoom.size.Y / 2) + 32));
         }
         protected override void Initialize()
         {
@@ -42,15 +42,20 @@ namespace IWCORE_WIN
             roomTex.SetData(roomColor);
 
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            player.texture = Content.Load<Texture2D>("sprites\\plr");
+            /* set player texture origin in order to rot8 */
+            player.setOrigin(new Vector2(player.texture.Width/2 , player.texture.Height/2));
+
+
         }
         protected override void UnloadContent()
         {
-            
+            roomTex.Dispose();
+
         }
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) Exit();
             base.Update(gameTime);
         }
         protected override void Draw(GameTime gameTime)
@@ -59,6 +64,7 @@ namespace IWCORE_WIN
 
             spriteBatch.Begin();
             spriteBatch.Draw(roomTex,testmap.demoRoom.pos);
+            spriteBatch.Draw(player.texture,player.getPos());
             spriteBatch.End();
 
             base.Draw(gameTime);
