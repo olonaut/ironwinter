@@ -9,9 +9,16 @@ namespace IWCORE_WIN
 {
     class Room
     {
-        Vector2 pos;
-        Vector2 size;
-        int foeAmmount;
-        Foe[] foes;
+        public Vector2 pos;
+        public Vector2 size;
+        public int foeAmmount;
+        public Foe[] foes;
+
+        public Room(Vector2 _pos, Vector2 _size, int _foeAmmount)
+        {
+            pos = _pos;
+            size = _size;
+            foeAmmount = _foeAmmount;
+        }
     }
 }

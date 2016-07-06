@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,11 @@ namespace IWCORE_WIN
          The code will be updated to involve more features later. 
          */
 
+        private Room demoRoom;
 
+        public Map()
+        {
+            demoRoom = new Room(new Vector2(0,0),new Vector2(200,200),1); /* Testmap */
+        }
     }
 }

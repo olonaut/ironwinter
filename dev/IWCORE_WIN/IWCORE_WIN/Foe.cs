@@ -12,5 +12,9 @@ namespace IWCORE_WIN
         Vector2 pos;
         double facing; /* For further reference, see Player.cs */
 
+        public Foe(Vector2 _pos)
+        {
+            pos = _pos;
+        }
     }
 }

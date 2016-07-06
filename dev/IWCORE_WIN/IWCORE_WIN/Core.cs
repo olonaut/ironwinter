@@ -18,6 +18,7 @@ namespace IWCORE_WIN
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            Window.Title = "IRON WINTER DEVBUILD";
         }
         protected override void Initialize()
         {
@@ -29,7 +30,7 @@ namespace IWCORE_WIN
         }
         protected override void UnloadContent()
         {
-
+            
         }
         protected override void Update(GameTime gameTime)
         {
@@ -39,7 +40,11 @@ namespace IWCORE_WIN
         }
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            spriteBatch.Begin();
+            /* heer goez de grafix */
+            spriteBatch.End();
+
+            GraphicsDevice.Clear(Color.Gray);
             base.Draw(gameTime);
         }
     }
