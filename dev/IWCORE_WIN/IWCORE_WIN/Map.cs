@@ -18,11 +18,14 @@ namespace IWCORE_WIN
          The code will be updated to involve more features later. 
          */
 
-        private Room demoRoom;
+        public Room demoRoom;
+        //private Room[] rooms;
+        static private Vector2 DEMOROOMSIZE = new Vector2(400,400); 
+
 
         public Map()
         {
-            demoRoom = new Room(new Vector2(0,0),new Vector2(200,200),1); /* Testmap */
+            demoRoom = new Room(new Vector2(50,50),DEMOROOMSIZE,1); /* Testmap */
         }
     }
 }
