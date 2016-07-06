@@ -16,6 +16,7 @@ namespace IWCORE_WIN
         Map testmap;
         Player player;
         Texture2D roomTex;
+        private float playerRotAngle = 0;
 
         /* Constants for DEMO */
         Color ROOMCOL = Color.DarkGray;
@@ -53,9 +54,20 @@ namespace IWCORE_WIN
             roomTex.Dispose();
 
         }
+
+        bool keyWasDown = false;
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) Exit();
+
+            playerRotAngle = GamePad.GetState(PlayerIndex.One).Triggers.Right * 100;
+
+            /* Conversion, to be put in new funciton */
+            playerRotAngle = ((playerRotAngle - 0) / (100 - 0)) * ((MathHelper.Pi * 2) - 0) + 0;
+
+            
+
+
             base.Update(gameTime);
         }
         protected override void Draw(GameTime gameTime)
@@ -64,7 +76,7 @@ namespace IWCORE_WIN
 
             spriteBatch.Begin();
             spriteBatch.Draw(roomTex,testmap.demoRoom.pos);
-            spriteBatch.Draw(player.texture,player.getPos());
+            spriteBatch.Draw(player.texture,player.getPos(),null,Color.White,playerRotAngle,player.getOrigin(),1.0f,SpriteEffects.None,0f);
             spriteBatch.End();
 
             base.Draw(gameTime);
