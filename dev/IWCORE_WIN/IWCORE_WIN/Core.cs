@@ -66,7 +66,9 @@ namespace IWCORE_WIN
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) Exit();
             MouseState mouseState = Mouse.GetState();
 
-            var direction = (new Vector2(mouseState.X, mouseState.Y) - (player.getPos()));
+            crsshr.pos = new Vector2(Mouse.GetState().X + (crsshr.texture.Width / 2), Mouse.GetState().Y + (crsshr.texture.Height / 2));
+
+            var direction = (new Vector2(crsshr.pos.X + (crsshr.texture.Width / 2) , crsshr.pos.Y + (crsshr.texture.Height / 2)) - (player.getPos()));
             playerRotAngle = (float)Math.Atan2(direction.Y, direction.X) + MathHelper.PiOver2;
 
             // playerRotAngle = GamePad.GetState(PlayerIndex.One).Triggers.Right * 100;
@@ -84,6 +86,7 @@ namespace IWCORE_WIN
             spriteBatch.Begin();
             spriteBatch.Draw(roomTex,testmap.demoRoom.pos);
             spriteBatch.Draw(player.texture,player.getPos(),null,Color.White,playerRotAngle, player.getOrigin(),1.0f,SpriteEffects.None,0f);
+            spriteBatch.Draw(crsshr.texture,crsshr.pos);
             spriteBatch.End();
 
             base.Draw(gameTime);
