@@ -17,6 +17,7 @@ namespace IWCORE_WIN
         Map testmap;
         Player player;
         Texture2D roomTex;
+        Crosshair crsshr;
         private float playerRotAngle = 0;
 
         /* Constants for DEMO */
@@ -30,6 +31,7 @@ namespace IWCORE_WIN
             this.IsMouseVisible = false;
             testmap = new Map();
             player = new Player(new Vector2(testmap.demoRoom.pos.X + (testmap.demoRoom.size.X / 2) + 32 , testmap.demoRoom.pos.Y + (testmap.demoRoom.size.Y / 2) + 32));
+            crsshr = new Crosshair();
         }
         protected override void Initialize()
         {
@@ -49,12 +51,14 @@ namespace IWCORE_WIN
             /* set player texture origin in order to rot8 */
             player.setOrigin(new Vector2(player.texture.Width/2 , player.texture.Height/2));
 
+            crsshr.texture = Content.Load<Texture2D>("sprites\\crosshairs");
 
         }
         protected override void UnloadContent()
         {
             roomTex.Dispose();
-
+            player.texture.Dispose();
+            crsshr.texture.Dispose();
         }
         
         protected override void Update(GameTime gameTime)

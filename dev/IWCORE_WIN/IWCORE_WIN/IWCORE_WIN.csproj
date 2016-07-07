@@ -39,6 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Core.cs" />
+    <Compile Include="Crosshair.cs" />
     <Compile Include="Foe.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Player.cs" />
