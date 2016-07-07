@@ -27,7 +27,7 @@ namespace IWCORE_WIN
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             Window.Title = "IRON WINTER DEVBUILD";
-            this.IsMouseVisible = true;
+            this.IsMouseVisible = false;
             testmap = new Map();
             player = new Player(new Vector2(testmap.demoRoom.pos.X + (testmap.demoRoom.size.X / 2) + 32 , testmap.demoRoom.pos.Y + (testmap.demoRoom.size.Y / 2) + 32));
         }
@@ -62,8 +62,8 @@ namespace IWCORE_WIN
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) Exit();
             MouseState mouseState = Mouse.GetState();
 
-            var direction = (new Vector2(mouseState.X, mouseState.Y) - (new Vector2(player.getPos().X - (player.texture.Width / 2) , player.getPos().Y - (player.texture.Height / 2))));
-            playerRotAngle = (float)Math.Atan2(direction.Y, direction.X);
+            var direction = (new Vector2(mouseState.X, mouseState.Y) - (player.getPos()));
+            playerRotAngle = (float)Math.Atan2(direction.Y, direction.X) + MathHelper.PiOver2;
 
             // playerRotAngle = GamePad.GetState(PlayerIndex.One).Triggers.Right * 100;
 
