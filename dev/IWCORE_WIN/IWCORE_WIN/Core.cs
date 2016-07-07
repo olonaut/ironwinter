@@ -6,6 +6,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace IWCORE_WIN
 {
@@ -26,6 +27,7 @@ namespace IWCORE_WIN
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             Window.Title = "IRON WINTER DEVBUILD";
+            this.IsMouseVisible = true;
             testmap = new Map();
             player = new Player(new Vector2(testmap.demoRoom.pos.X + (testmap.demoRoom.size.X / 2) + 32 , testmap.demoRoom.pos.Y + (testmap.demoRoom.size.Y / 2) + 32));
         }
@@ -54,16 +56,20 @@ namespace IWCORE_WIN
             roomTex.Dispose();
 
         }
-
-        bool keyWasDown = false;
+        
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) Exit();
+            MouseState mouseState = Mouse.GetState();
 
-            playerRotAngle = GamePad.GetState(PlayerIndex.One).Triggers.Right * 100;
+            var direction = (new Vector2(mouseState.X, mouseState.Y) - (new Vector2(player.getPos().X - (player.texture.Width / 2) , player.getPos().Y - (player.texture.Height / 2))));
+            playerRotAngle = (float)Math.Atan2(direction.Y, direction.X);
+
+            // playerRotAngle = GamePad.GetState(PlayerIndex.One).Triggers.Right * 100;
 
             /* Conversion, to be put in new funciton */
-            playerRotAngle = ((playerRotAngle - 0) / (100 - 0)) * ((MathHelper.Pi * 2) - 0) + 0;
+            // playerRotAngle = ((playerRotAngle - 0) / (100 - 0)) * ((MathHelper.Pi * 2) - 0) + 0;
+            
 
             base.Update(gameTime);
         }
@@ -73,7 +79,7 @@ namespace IWCORE_WIN
 
             spriteBatch.Begin();
             spriteBatch.Draw(roomTex,testmap.demoRoom.pos);
-            spriteBatch.Draw(player.texture,player.getPos(),null,Color.White,playerRotAngle,player.getOrigin(),1.0f,SpriteEffects.None,0f);
+            spriteBatch.Draw(player.texture,player.getPos(),null,Color.White,playerRotAngle, player.getOrigin(),1.0f,SpriteEffects.None,0f);
             spriteBatch.End();
 
             base.Draw(gameTime);
