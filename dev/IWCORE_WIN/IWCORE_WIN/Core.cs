@@ -66,16 +66,13 @@ namespace IWCORE_WIN
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) Exit();
             MouseState mouseState = Mouse.GetState();
 
-            crsshr.pos = new Vector2(Mouse.GetState().X + (crsshr.texture.Width / 2), Mouse.GetState().Y + (crsshr.texture.Height / 2));
+            crsshr.pos = new Vector2(Mouse.GetState().X - (crsshr.texture.Width / 2), Mouse.GetState().Y - (crsshr.texture.Height / 2));
 
             var direction = (new Vector2(crsshr.pos.X + (crsshr.texture.Width / 2) , crsshr.pos.Y + (crsshr.texture.Height / 2)) - (player.getPos()));
             playerRotAngle = (float)Math.Atan2(direction.Y, direction.X) + MathHelper.PiOver2;
 
-            // playerRotAngle = GamePad.GetState(PlayerIndex.One).Triggers.Right * 100;
+            /* Player Movement */
 
-            /* Conversion, to be put in new funciton */
-            // playerRotAngle = ((playerRotAngle - 0) / (100 - 0)) * ((MathHelper.Pi * 2) - 0) + 0;
-            
 
             base.Update(gameTime);
         }
