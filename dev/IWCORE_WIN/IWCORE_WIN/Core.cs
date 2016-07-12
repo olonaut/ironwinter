@@ -41,12 +41,13 @@ namespace IWCORE_WIN
         protected override void LoadContent()
         {
             /* This is for Demo */
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+
             Color[] roomColor = new Color[(int)testmap.demoRoom.size.X * (int)testmap.demoRoom.size.Y];
             for (int i = 0; i < roomColor.Length; i++) roomColor[i] = ROOMCOL;
             roomTex = new Texture2D(graphics.GraphicsDevice, (int)testmap.demoRoom.size.X, (int)testmap.demoRoom.size.Y);
             roomTex.SetData(roomColor);
 
-            spriteBatch = new SpriteBatch(GraphicsDevice);
             player.texture = Content.Load<Texture2D>("sprites\\plr");
             /* set player texture origin in order to rot8 */
             player.origin = new Vector2(player.texture.Width/2 , player.texture.Height/2);
@@ -77,16 +78,19 @@ namespace IWCORE_WIN
             playerRotAngle = (float)Math.Atan2(direction.Y, direction.X) + MathHelper.PiOver2;
 
             /* Player Movement */
+            /* Collision */
             /* TODO DISALLOW STRAVING */
-            if (kbState.IsKeyDown(Keys.W))
+            if (kbState.IsKeyDown(Keys.W) && !(testmap.demoRoom.pos.Y > player.pos.Y - (player.texture.Height / 2) - (PLAYERSPEED)))
                 playerMove.Y -= PLAYERSPEED;
-            if (kbState.IsKeyDown(Keys.S))
+            if (kbState.IsKeyDown(Keys.S) && !(testmap.demoRoom.pos.Y + testmap.demoRoom.size.Y < player.pos.Y + (player.texture.Height / 2) + (PLAYERSPEED)))
                 playerMove.Y += PLAYERSPEED;
-            if (kbState.IsKeyDown(Keys.A))
+            if (kbState.IsKeyDown(Keys.A) && !(testmap.demoRoom.pos.X > player.pos.X - (player.texture.Width / 2) - (PLAYERSPEED)))
                 playerMove.X -= PLAYERSPEED;
-            if (kbState.IsKeyDown(Keys.D))
+            if (kbState.IsKeyDown(Keys.D) && !(testmap.demoRoom.pos.X + testmap.demoRoom.size.X < player.pos.X + (player.texture.Width / 2) + (PLAYERSPEED)))
                 playerMove.X += PLAYERSPEED;
             player.pos += playerMove;
+            
+
 
             base.Update(gameTime);
         }
