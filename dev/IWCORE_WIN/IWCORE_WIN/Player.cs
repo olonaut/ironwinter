@@ -12,8 +12,8 @@ namespace IWCORE_WIN
     {
         public Vector2 pos;
         public double facing; /* where the player is facing, where as 0 = straight up, 25 = right, 50 = straight down, 75 = left */
-        public Texture2D texture;
-        public Vector2 origin;
+        public Texture2D texture; /* texture, to be loaded in core.cs */
+        public Vector2 origin; /* Honestly, how does this work? */
 
         public Player(Vector2 _pos)
         {

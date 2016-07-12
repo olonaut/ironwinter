@@ -10,8 +10,8 @@ namespace IWCORE_WIN
 {
     class Crosshair
     {
-        public Vector2 pos;
-        public Texture2D texture;
+        public Vector2 pos; /* position of crosshairs */
+        public Texture2D texture; /* texture, to be loaded in core.cs */
     }
 
 

@@ -19,6 +19,7 @@ namespace IWCORE_WIN
         Texture2D roomTex;
         Crosshair crsshr;
         private float playerRotAngle = 0;
+        Texture2D bulletTex;
 
         /* Constants for DEMO */
         Color ROOMCOL = Color.DarkGray;
@@ -71,15 +72,14 @@ namespace IWCORE_WIN
             GamePadState padState = GamePad.GetState(PlayerIndex.One);
             Vector2 playerMove = new Vector2(0,0);
 
+            /* Crosshairs */
             /* Could be done better */
             crsshr.pos = new Vector2(Mouse.GetState().X - (crsshr.texture.Width / 2), Mouse.GetState().Y - (crsshr.texture.Height / 2));
-
             var direction = (new Vector2(crsshr.pos.X + (crsshr.texture.Width / 2) , crsshr.pos.Y + (crsshr.texture.Height / 2)) - (player.pos));
             playerRotAngle = (float)Math.Atan2(direction.Y, direction.X) + MathHelper.PiOver2;
 
             /* Player Movement */
             /* Collision */
-            /* TODO DISALLOW STRAVING */
             if (kbState.IsKeyDown(Keys.W) && !(testmap.demoRoom.pos.Y > player.pos.Y - (player.texture.Height / 2) - (PLAYERSPEED)))
                 playerMove.Y -= PLAYERSPEED;
             if (kbState.IsKeyDown(Keys.S) && !(testmap.demoRoom.pos.Y + testmap.demoRoom.size.Y < player.pos.Y + (player.texture.Height / 2) + (PLAYERSPEED)))
@@ -88,10 +88,11 @@ namespace IWCORE_WIN
                 playerMove.X -= PLAYERSPEED;
             if (kbState.IsKeyDown(Keys.D) && !(testmap.demoRoom.pos.X + testmap.demoRoom.size.X < player.pos.X + (player.texture.Width / 2) + (PLAYERSPEED)))
                 playerMove.X += PLAYERSPEED;
-            player.pos += playerMove;
+            /* TODO DISALLOW STRAVING */
+            player.pos += playerMove; /* Apply previously calculated player movement */
             
 
-
+            
             base.Update(gameTime);
         }
         protected override void Draw(GameTime gameTime)
