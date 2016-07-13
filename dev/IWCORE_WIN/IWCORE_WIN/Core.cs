@@ -101,7 +101,7 @@ namespace IWCORE_WIN
             player.pos += playerMove; /* Apply previously calculated player movement */
             
             /* Shooting */
-            if(mouseState.RightButton == ButtonState.Pressed)
+            if(mouseState.LeftButton == ButtonState.Pressed)
             {
                 elapsedMS += gameTime.ElapsedGameTime.TotalMilliseconds;
                 if (elapsedMS >= Player.SHOOTINGSPEED)
@@ -115,6 +115,15 @@ namespace IWCORE_WIN
                     }
                 }
             }
+            /* Bullet calc */
+            foreach (Bullet b in bullets)
+            {
+                if (b.active)
+                {
+                    
+                }
+            }
+
             base.Update(gameTime);
         }
         protected override void Draw(GameTime gameTime)
@@ -129,6 +138,20 @@ namespace IWCORE_WIN
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        public double radToPercent(double rad)
+        {
+            double per;
+            per = ((rad - 0) / (MathHelper.PiOver2 - 0)) * (100 - 0) + 0;
+            return per;
+        }
+
+        public double percentToRad(double per)
+        {
+            double rad;
+            rad = ((per - 0) / (100 - 0)) * (MathHelper.PiOver2 - 0) + 0;
+            return rad;
         }
     }
 }

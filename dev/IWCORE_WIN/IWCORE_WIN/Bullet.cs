@@ -12,12 +12,19 @@ namespace IWCORE_WIN
         public Vector2 pos; /* Bullet Position */
         public double heading; /* Bullet direction in radiant */
         public bool active = false;
+        public double bulletspeed = 10; /* Speed how fast the bullet moves in px. This is a dynamic testing value */
 
         public Bullet(Vector2 _pos, double _heading)
         {
             pos = _pos;
             heading = _heading;
             active = true;
+        }
+
+        public bool detectHit(Vector2 _pos, Vector2 _size)
+        {
+            if ((pos.X > _pos.X && pos.X < (_pos.X + _size.X)) && (pos.Y > _pos.Y && pos.Y < (_pos.Y + _size.Y))) return true;
+            else return false;
         }
 
     }
