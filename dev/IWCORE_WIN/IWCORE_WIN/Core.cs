@@ -26,6 +26,8 @@ namespace IWCORE_WIN
         Color ROOMCOL = Color.DarkGray;
         public static float PLAYERSPEED = 5;
 
+        string DEBUG = "";
+
         public Core()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -88,6 +90,11 @@ namespace IWCORE_WIN
             var direction = (new Vector2(crsshr.pos.X + (crsshr.texture.Width / 2) , crsshr.pos.Y + (crsshr.texture.Height / 2)) - (player.pos));
             player.facing = (float)Math.Atan2(direction.Y, direction.X) + MathHelper.PiOver2;
 
+            Vector2 dirVect = new Vector2((float)Math.Cos(player.facing), (float)Math.Sin(player.facing));
+            if (dirVect.X < -1 || dirVect.X > 1) dirVect.X = 0;
+            if (dirVect.Y < -1 || dirVect.Y > 1) dirVect.Y = 0;
+            DEBUG = dirVect.ToString();
+
             /* Collision */
             if (kbState.IsKeyDown(Keys.W) && !(testmap.demoRoom.pos.Y > player.pos.Y - (player.texture.Height / 2) - (PLAYERSPEED)))
                 playerMove.Y -= PLAYERSPEED;
@@ -115,7 +122,9 @@ namespace IWCORE_WIN
                     }
                 }
             }
-            /* Bullet calc */
+
+            /* Bullet calc 
+            Vector2 dirVect;
             foreach (Bullet b in bullets)
             {
                 if (b.active)
@@ -123,6 +132,8 @@ namespace IWCORE_WIN
                     
                 }
             }
+            */
+
 
             base.Update(gameTime);
         }
@@ -134,7 +145,7 @@ namespace IWCORE_WIN
             spriteBatch.Draw(roomTex,testmap.demoRoom.pos);
             spriteBatch.Draw(player.texture,player.pos,null,Color.White,player.facing, player.origin,1.0f,SpriteEffects.None,0f);
             spriteBatch.Draw(crsshr.texture,crsshr.pos);
-            spriteBatch.DrawString(debugFont,bulletcount.ToString(),new Vector2(0, graphics.GraphicsDevice.Viewport.Height - debugFont.MeasureString(bulletcount.ToString()).Y),Color.Blue);
+            spriteBatch.DrawString(debugFont,DEBUG,new Vector2(0, graphics.GraphicsDevice.Viewport.Height - debugFont.MeasureString(DEBUG).Y),Color.Blue);
             spriteBatch.End();
 
             base.Draw(gameTime);
