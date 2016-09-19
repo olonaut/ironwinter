@@ -18,8 +18,8 @@ namespace IWCORE_WIN
         Player player;
         Texture2D roomTex;
         Crosshair crsshr;
-        Texture2D bulletTex;
         Bullet[] bullets;
+        Texture2D bulletLine;
         SpriteFont debugFont;
         
         /* Constants for DEMO */
@@ -60,17 +60,20 @@ namespace IWCORE_WIN
 
             /* misc textures */
             crsshr.texture = Content.Load<Texture2D>("sprites\\crosshairs");
-            bulletTex = Content.Load<Texture2D>("sprites\\bullet");
 
             /* fonts */
             debugFont = Content.Load<SpriteFont>("font\\debug");
+
+            /* Bullet Line Texture */
+            bulletLine = new Texture2D(GraphicsDevice, 1, 1);
+            bulletLine.SetData<Color>(
+                new Color[] { Color.White });
         }
         protected override void UnloadContent()
         {
             roomTex.Dispose();
             player.texture.Dispose();
             crsshr.texture.Dispose();
-            bulletTex.Dispose();
         }
 
         private short bulletcount = 0;
@@ -114,7 +117,6 @@ namespace IWCORE_WIN
                 if (elapsedMS >= Player.SHOOTINGSPEED)
                 {
                     elapsedMS = 0;
-                    bullets[bulletcount] = new Bullet(player.pos, player.facing);
                     bulletcount++;
                     if (bulletcount >= bullets.Length)
                     {
@@ -122,19 +124,7 @@ namespace IWCORE_WIN
                     }
                 }
             }
-
-            /* Bullet calc 
-            Vector2 dirVect;
-            foreach (Bullet b in bullets)
-            {
-                if (b.active)
-                {
-                    
-                }
-            }
-            */
-
-
+            
             base.Update(gameTime);
         }
         protected override void Draw(GameTime gameTime)
@@ -146,6 +136,11 @@ namespace IWCORE_WIN
             spriteBatch.Draw(player.texture,player.pos,null,Color.White,player.facing, player.origin,1.0f,SpriteEffects.None,0f);
             spriteBatch.Draw(crsshr.texture,crsshr.pos);
             spriteBatch.DrawString(debugFont,DEBUG,new Vector2(0, graphics.GraphicsDevice.Viewport.Height - debugFont.MeasureString(DEBUG).Y),Color.Blue);
+            DrawLine(spriteBatch,
+                bulletLine,
+                new Vector2(200, 200),
+                new Vector2(600,600)
+                );
             spriteBatch.End();
 
             base.Draw(gameTime);
@@ -163,6 +158,29 @@ namespace IWCORE_WIN
             double rad;
             rad = ((per - 0) / (100 - 0)) * (MathHelper.PiOver2 - 0) + 0;
             return rad;
+        }
+
+        void DrawLine(SpriteBatch sb, Texture2D _t, Vector2 start, Vector2 end)
+        {
+            Vector2 edge = end - start;
+            // calculate angle to rotate line
+            float angle =
+                (float)Math.Atan2(edge.Y, edge.X);
+
+
+            sb.Draw(_t,
+                new Rectangle(// rectangle defines shape of line and position of start of line
+                    (int)start.X,
+                    (int)start.Y,
+                    (int)edge.Length(), //sb will strech the texture to fill this rectangle
+                    2), //width of line, change this to make thicker line
+                null,
+                Color.DarkOrange, //colour of line
+                angle,     //angle of line (calulated above)
+                new Vector2(0, 0), // point in line about which to rotate
+                SpriteEffects.None,
+                0);
+
         }
     }
 }
