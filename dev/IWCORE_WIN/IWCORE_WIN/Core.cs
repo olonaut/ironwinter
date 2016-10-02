@@ -37,13 +37,14 @@ namespace IWCORE_WIN
             testmap = new Map();
             player = new Player(new Vector2(testmap.demoRoom.pos.X + (testmap.demoRoom.size.X / 2) + 32, testmap.demoRoom.pos.Y + (testmap.demoRoom.size.Y / 2) + 32));
             crsshr = new Crosshair();
-
             bullets = new Bullet[(int)Math.Pow(2,8)];
         }
+
         protected override void Initialize()
         {
             base.Initialize();
         }
+
         protected override void LoadContent()
         {
             /* This is for Demo */
@@ -136,11 +137,7 @@ namespace IWCORE_WIN
             spriteBatch.Draw(player.texture,player.pos,null,Color.White,player.facing, player.origin,1.0f,SpriteEffects.None,0f);
             spriteBatch.Draw(crsshr.texture,crsshr.pos);
             spriteBatch.DrawString(debugFont,DEBUG,new Vector2(0, graphics.GraphicsDevice.Viewport.Height - debugFont.MeasureString(DEBUG).Y),Color.Blue);
-            DrawLine(spriteBatch,
-                bulletLine,
-                new Vector2(200, 200),
-                new Vector2(600,600)
-                );
+            //DrawLine(spriteBatch,bulletLine,new Vector2(200, 200),new Vector2(600,600)); //Draw Line [For Debugging Only]
             spriteBatch.End();
 
             base.Draw(gameTime);
@@ -182,5 +179,21 @@ namespace IWCORE_WIN
                 0);
 
         }
+
+        bool IsIntersecting(Point a, Point b, Point c, Point d)
+        {
+            float denominator = ((b.X - a.X) * (d.Y - c.Y)) - ((b.Y - a.Y) * (d.X - c.X));
+            float numerator1 = ((a.Y - c.Y) * (d.X - c.X)) - ((a.X - c.X) * (d.Y - c.Y));
+            float numerator2 = ((a.Y - c.Y) * (b.X - a.X)) - ((a.X - c.X) * (b.Y - a.Y));
+
+            // Detect coincident lines (has a problem, read below)
+            if (denominator == 0) return numerator1 == 0 && numerator2 == 0;
+
+            float r = numerator1 / denominator;
+            float s = numerator2 / denominator;
+
+            return (r >= 0 && r <= 1) && (s >= 0 && s <= 1);
+        }
+
     }
 }

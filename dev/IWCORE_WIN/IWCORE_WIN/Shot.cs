@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace IWCORE_WIN
 {
-    class Bullet
+    class Shot
     {
         public Vector2 pos; /* Bullet Position */
         public double heading; /* Bullet direction in radiant */
         public bool active = false;
        
-        public Bullet(Vector2 _pos, double _heading)
+        public Shot(Vector2 _pos, double _heading)
         {
             pos = _pos;
             heading = _heading;
