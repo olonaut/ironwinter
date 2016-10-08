@@ -12,13 +12,15 @@ namespace IWCORE_WIN
 {
     public class Core : Game
     {
+        RasterizerState RS = new RasterizerState { MultiSampleAntiAlias = true };
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Map testmap;
         Player player;
         Texture2D roomTex;
         Crosshair crsshr;
-        Bullet[] bullets;
+        Shot[] shots;
         Texture2D bulletLine;
         SpriteFont debugFont;
         
@@ -37,12 +39,12 @@ namespace IWCORE_WIN
             testmap = new Map();
             player = new Player(new Vector2(testmap.demoRoom.pos.X + (testmap.demoRoom.size.X / 2) + 32, testmap.demoRoom.pos.Y + (testmap.demoRoom.size.Y / 2) + 32));
             crsshr = new Crosshair();
-            bullets = new Bullet[(int)Math.Pow(2,8)];
         }
 
         protected override void Initialize()
         {
             base.Initialize();
+            graphics.PreferMultiSampling = true;
         }
 
         protected override void LoadContent()
@@ -76,8 +78,7 @@ namespace IWCORE_WIN
             player.texture.Dispose();
             crsshr.texture.Dispose();
         }
-
-        private short bulletcount = 0;
+        
         private double elapsedMS = 0;
         protected override void Update(GameTime gameTime)
         {
@@ -118,11 +119,7 @@ namespace IWCORE_WIN
                 if (elapsedMS >= Player.SHOOTINGSPEED)
                 {
                     elapsedMS = 0;
-                    bulletcount++;
-                    if (bulletcount >= bullets.Length)
-                    {
-                        bulletcount = 0;
-                    }
+                    //TODO implement shooting
                 }
             }
             
@@ -132,12 +129,12 @@ namespace IWCORE_WIN
         {
             GraphicsDevice.Clear(Color.Gray);
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.FrontToBack,null,null,null,RS);
             spriteBatch.Draw(roomTex,testmap.demoRoom.pos);
             spriteBatch.Draw(player.texture,player.pos,null,Color.White,player.facing, player.origin,1.0f,SpriteEffects.None,0f);
-            spriteBatch.Draw(crsshr.texture,crsshr.pos);
             spriteBatch.DrawString(debugFont,DEBUG,new Vector2(0, graphics.GraphicsDevice.Viewport.Height - debugFont.MeasureString(DEBUG).Y),Color.Blue);
-            //DrawLine(spriteBatch,bulletLine,new Vector2(200, 200),new Vector2(600,600)); //Draw Line [For Debugging Only]
+            DrawLine(spriteBatch,bulletLine, player.pos /* + new Vector2( player.texture.Width/2 , player.texture.Height/2)*/, crsshr.pos + new Vector2(crsshr.texture.Width/2 , crsshr.texture.Height / 2), Color.Red); //Draw Line [For Debugging Only]
+            spriteBatch.Draw(crsshr.texture,crsshr.pos); // Draw Crosshair last, for layering
             spriteBatch.End();
 
             base.Draw(gameTime);
@@ -157,7 +154,7 @@ namespace IWCORE_WIN
             return rad;
         }
 
-        void DrawLine(SpriteBatch sb, Texture2D _t, Vector2 start, Vector2 end)
+        void DrawLine(SpriteBatch sb, Texture2D _t, Vector2 start, Vector2 end, Color col)
         {
             Vector2 edge = end - start;
             // calculate angle to rotate line
@@ -170,9 +167,9 @@ namespace IWCORE_WIN
                     (int)start.X,
                     (int)start.Y,
                     (int)edge.Length(), //sb will strech the texture to fill this rectangle
-                    2), //width of line, change this to make thicker line
+                    1), //width of line, change this to make thicker line
                 null,
-                Color.DarkOrange, //colour of line
+                col, //colour of line
                 angle,     //angle of line (calulated above)
                 new Vector2(0, 0), // point in line about which to rotate
                 SpriteEffects.None,

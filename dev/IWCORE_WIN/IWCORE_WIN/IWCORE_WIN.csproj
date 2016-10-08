@@ -38,7 +38,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Bullet.cs" />
+    <Compile Include="Shot.cs" />
     <Compile Include="Core.cs" />
     <Compile Include="Crosshair.cs" />
     <Compile Include="Foe.cs" />
