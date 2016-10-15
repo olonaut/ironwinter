@@ -20,5 +20,7 @@ namespace IWCORE_WIN
             size = _size;
             foeAmmount = _foeAmmount;
         }
+
+
     }
 }

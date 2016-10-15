@@ -128,15 +128,13 @@ namespace IWCORE_WIN
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Gray);
-
-            spriteBatch.Begin(SpriteSortMode.FrontToBack,null,null,null,RS);
-            spriteBatch.Draw(roomTex,testmap.demoRoom.pos);
+            spriteBatch.Begin(SpriteSortMode.FrontToBack,null,null,null,RS); //Enable anti aliasing
+            spriteBatch.Draw(roomTex,testmap.demoRoom.pos); // Draw Room
             spriteBatch.Draw(player.texture,player.pos,null,Color.White,player.facing, player.origin,1.0f,SpriteEffects.None,0f);
             spriteBatch.DrawString(debugFont,DEBUG,new Vector2(0, graphics.GraphicsDevice.Viewport.Height - debugFont.MeasureString(DEBUG).Y),Color.Blue);
             DrawLine(spriteBatch,bulletLine, player.pos /* + new Vector2( player.texture.Width/2 , player.texture.Height/2)*/, crsshr.pos + new Vector2(crsshr.texture.Width/2 , crsshr.texture.Height / 2), Color.Red); //Draw Line [For Debugging Only]
             spriteBatch.Draw(crsshr.texture,crsshr.pos); // Draw Crosshair last, for layering
             spriteBatch.End();
-
             base.Draw(gameTime);
         }
 
