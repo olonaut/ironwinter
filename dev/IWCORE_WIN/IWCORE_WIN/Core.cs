@@ -12,8 +12,10 @@ namespace IWCORE_WIN
 {
     public class Core : Game
     {
+        // Modifiers and Settings
         RasterizerState RS = new RasterizerState { MultiSampleAntiAlias = true };
 
+        //Global Objects
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Map testmap;
@@ -24,7 +26,7 @@ namespace IWCORE_WIN
         Texture2D bulletLine;
         SpriteFont debugFont;
         
-        /* Constants for DEMO */
+        // Constants for Demo
         Color ROOMCOL = Color.DarkGray;
         public static float PLAYERSPEED = 5;
 
@@ -98,7 +100,6 @@ namespace IWCORE_WIN
             Vector2 dirVect = new Vector2((float)Math.Cos(player.facing), (float)Math.Sin(player.facing));
             if (dirVect.X < -1 || dirVect.X > 1) dirVect.X = 0;
             if (dirVect.Y < -1 || dirVect.Y > 1) dirVect.Y = 0;
-            DEBUG = dirVect.ToString();
 
             /* Collision */
             if (kbState.IsKeyDown(Keys.W) && !(testmap.demoRoom.pos.Y > player.pos.Y - (player.texture.Height / 2) - (PLAYERSPEED)))
@@ -122,7 +123,8 @@ namespace IWCORE_WIN
                     //TODO implement shooting
                 }
             }
-            
+            DEBUG = dirVect.ToString() + "\n" + player.pos.ToString() + "\n" + player.texture.ToString();
+
             base.Update(gameTime);
         }
         protected override void Draw(GameTime gameTime)
@@ -131,8 +133,8 @@ namespace IWCORE_WIN
             spriteBatch.Begin(SpriteSortMode.FrontToBack,null,null,null,RS); //Enable anti aliasing
             spriteBatch.Draw(roomTex,testmap.demoRoom.pos); // Draw Room
             spriteBatch.Draw(player.texture,player.pos,null,Color.White,player.facing, player.origin,1.0f,SpriteEffects.None,0f);
-            spriteBatch.DrawString(debugFont,DEBUG,new Vector2(0, graphics.GraphicsDevice.Viewport.Height - debugFont.MeasureString(DEBUG).Y),Color.Blue);
-            DrawLine(spriteBatch,bulletLine, player.pos /* + new Vector2( player.texture.Width/2 , player.texture.Height/2)*/, crsshr.pos + new Vector2(crsshr.texture.Width/2 , crsshr.texture.Height / 2), Color.Red); //Draw Line [For Debugging Only]
+            spriteBatch.DrawString(debugFont,DEBUG,new Vector2(0, 0),Color.Blue);
+            Line.Draw(spriteBatch,bulletLine, player.pos /* + new Vector2( player.texture.Width/2 , player.texture.Height/2)*/, crsshr.pos + new Vector2(crsshr.texture.Width/2 , crsshr.texture.Height / 2), Color.Red); //Draw Line [For Debugging Only]
             spriteBatch.Draw(crsshr.texture,crsshr.pos); // Draw Crosshair last, for layering
             spriteBatch.End();
             base.Draw(gameTime);
@@ -150,44 +152,6 @@ namespace IWCORE_WIN
             double rad;
             rad = ((per - 0) / (100 - 0)) * (MathHelper.PiOver2 - 0) + 0;
             return rad;
-        }
-
-        void DrawLine(SpriteBatch sb, Texture2D _t, Vector2 start, Vector2 end, Color col)
-        {
-            Vector2 edge = end - start;
-            // calculate angle to rotate line
-            float angle =
-                (float)Math.Atan2(edge.Y, edge.X);
-
-
-            sb.Draw(_t,
-                new Rectangle(// rectangle defines shape of line and position of start of line
-                    (int)start.X,
-                    (int)start.Y,
-                    (int)edge.Length(), //sb will strech the texture to fill this rectangle
-                    1), //width of line, change this to make thicker line
-                null,
-                col, //colour of line
-                angle,     //angle of line (calulated above)
-                new Vector2(0, 0), // point in line about which to rotate
-                SpriteEffects.None,
-                0);
-
-        }
-
-        bool IsIntersecting(Point a, Point b, Point c, Point d)
-        {
-            float denominator = ((b.X - a.X) * (d.Y - c.Y)) - ((b.Y - a.Y) * (d.X - c.X));
-            float numerator1 = ((a.Y - c.Y) * (d.X - c.X)) - ((a.X - c.X) * (d.Y - c.Y));
-            float numerator2 = ((a.Y - c.Y) * (b.X - a.X)) - ((a.X - c.X) * (b.Y - a.Y));
-
-            // Detect coincident lines (has a problem, read below)
-            if (denominator == 0) return numerator1 == 0 && numerator2 == 0;
-
-            float r = numerator1 / denominator;
-            float s = numerator2 / denominator;
-
-            return (r >= 0 && r <= 1) && (s >= 0 && s <= 1);
         }
 
     }
